@@ -1,0 +1,76 @@
+$git init
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+  <body>
+    
+        <div class="container">
+                <h1 class="page-header">Indicar las vocales dentro de la frase</h1>
+                <form id="formulario" method="POST" action="procesa.php">
+                    <div class="form-group">
+                        <label>Ingresa frase</label>
+                        <input type="text" name="palabra" class="form-control" required/>
+                    </div>
+        
+                    <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Enviar frase</button>
+                        </div>
+        
+                    <div class="form-group">
+                        <label>Vocales</label>
+                        <input type="text" name="vocales" id="vocales" class="form-control" disabled/>
+                    </div>
+        
+                    <div class="form-group">
+                            <label>Cantidad</label>
+                            <input type="text" name="cantidad" id="cantidad" class="form-control" disabled/>
+                        </div>
+        
+                    
+                </form>
+            </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
+    <script
+  src="https://code.jquery.com/jquery-2.2.4.js"
+  integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+  crossorigin="anonymous"></script>
+
+  <script>
+      $(document).ready(function(){
+          var form = $("#formulario");
+          var cadena = "";
+          form.submit(function(){
+              $.ajax({
+                  url : "procesa.php",
+                  method: "POST",
+                  data: form.serialize(),
+                  success: function(r){
+                      for(var k in r.respuesta){
+                          cadena += r.respuesta[k];
+                      }
+                      $("#vocales").val(cadena);
+                      cadena = "";
+                      $("#cantidad").val(r.cantidad);
+                  },
+                  dataType: "json"
+
+              });
+              return false;
+          })
+      })
+  </script>
+
+  </body>
+</html>
